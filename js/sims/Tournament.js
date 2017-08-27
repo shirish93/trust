@@ -1,17 +1,17 @@
-Tournament.resetGlobalVariables = function(){
+Tournament.resetGlobalVariables = function() {
 
 	Tournament.SELECTION = 5;
 	Tournament.NUM_TURNS = 10;
 
 	Tournament.INITIAL_AGENTS = [
-		{strategy:"tft", count:3, mood_: "HOPE THIS WORKS"},
-		{strategy:"all_d", count:3},
-		{strategy:"all_c", count:3},
-		{strategy:"grudge", count:3},
-		{strategy:"prober", count:3},
-		{strategy:"tf2t", count:3},
-		{strategy:"pavlov", count:3},
-		{strategy:"random", count:4}
+		{ strategy: "tft", count: 3, mood_: "HOPE THIS WORKS" },
+		{ strategy: "all_d", count: 3 },
+		{ strategy: "all_c", count: 3 },
+		{ strategy: "grudge", count: 3 },
+		{ strategy: "prober", count: 3 },
+		{ strategy: "tf2t", count: 3 },
+		{ strategy: "pavlov", count: 3 },
+		{ strategy: "random", count: 4 }
 	];
 
 	Tournament.FLOWER_CONNECTIONS = false;
@@ -24,11 +24,11 @@ Tournament.resetGlobalVariables = function(){
 
 Tournament.resetGlobalVariables();
 
-subscribe("rules/evolution",function(value){
+subscribe("rules/evolution", function(value) {
 	Tournament.SELECTION = value;
 });
 
-subscribe("rules/turns",function(value){
+subscribe("rules/turns", function(value) {
 	Tournament.NUM_TURNS = value;
 });
 
@@ -39,7 +39,7 @@ subscribe("rules/turns",function(value){
 //////////////////////////////////////////////
 
 // REGULAR LOAD
-Loader.addToManifest(Loader.manifest,{
+Loader.addToManifest(Loader.manifest, {
 	tournament_peep: "assets/tournament/tournament_peep.json",
 	connection_flower: "assets/tournament/connection_flower.json",
 
@@ -49,30 +49,30 @@ Loader.addToManifest(Loader.manifest,{
 
 });
 
-function Tournament(config){
+function Tournament(config) {
 
 	var self = this;
 	self.id = config.id;
-	
+
 	// APP
-	var app = new PIXI.Application(500, 500, {transparent:true, resolution:2});
+	var app = new PIXI.Application(500, 500, { transparent: true, resolution: 2 });
 	self.dom = app.view;
 
 	// DOM
 	self.dom.className = "object";
 	self.dom.style.width = 500;
 	self.dom.style.height = 500;
-	self.dom.style.left = config.x+"px";
-	self.dom.style.top = config.y+"px";
+	self.dom.style.left = config.x + "px";
+	self.dom.style.top = config.y + "px";
 	//self.dom.style.border = "1px solid rgba(0,0,0,0.2)";
 
-	var _convertCountToArray = function(countList){
+	var _convertCountToArray = function(countList) {
 		var array = [];
-		for(var i=0; i<AGENTS.length; i++){
+		for (var i = 0; i < AGENTS.length; i++) {
 			var A = AGENTS[i];
 			var strategy = A.strategy;
 			var count = A.count;
-			for(var j=0; j<count; j++){
+			for (var j = 0; j < count; j++) {
 				array.push(strategy);
 			}
 		}
@@ -87,24 +87,24 @@ function Tournament(config){
 	app.stage.addChild(self.networkContainer);
 	app.stage.addChild(self.agentsContainer);
 
-	self.populateAgents = function(){
+	self.populateAgents = function() {
 
 		// Clear EVERYTHING
-		while(self.agents.length>0) self.agents[0].kill();
-		
+		while (self.agents.length > 0) self.agents[0].kill();
+
 		// Convert to an array
 		self.agents = _convertCountToArray(AGENTS);
 
 		// Put 'em in a ring
 		var count = 0;
-		for(var i=0; i<self.agents.length; i++){
+		for (var i = 0; i < self.agents.length; i++) {
 
 			// Angle
-			var angle = (i/self.agents.length)*Math.TAU - Math.TAU/4;
+			var angle = (i / self.agents.length) * Math.TAU - Math.TAU / 4;
 
 			// What kind of agent?
 			var strategy = self.agents[i];
-			var agent = new TournamentAgent({angle:angle, strategy:strategy, tournament:self});
+			var agent = new TournamentAgent({ angle: angle, strategy: strategy, tournament: self });
 			self.agentsContainer.addChild(agent.graphics);
 
 			// Remember me!
@@ -116,22 +116,22 @@ function Tournament(config){
 		self.sortAgentsByDepth();
 
 	};
-	self.sortAgentsByDepth = function(){
-		self.agentsContainer.children.sort(function(a,b){
+	self.sortAgentsByDepth = function() {
+		self.agentsContainer.children.sort(function(a, b) {
 			return a.y - b.y;
 		});
 	};
 
-	self.createNetwork = function(){
+	self.createNetwork = function() {
 
 		// Clear EVERYTHING
-		while(self.connections.length>0) self.connections[0].kill();
-		
+		while (self.connections.length > 0) self.connections[0].kill();
+
 		// Connect all of 'em
-		for(var i=0; i<self.agents.length; i++){
+		for (var i = 0; i < self.agents.length; i++) {
 			var playerA = self.agents[i];
 			var flip = false;
-			for(var j=i+1; j<self.agents.length; j++){
+			for (var j = i + 1; j < self.agents.length; j++) {
 				var playerB = self.agents[j];
 				var connection = new TournamentConnection({
 					tournament: self,
@@ -146,9 +146,9 @@ function Tournament(config){
 		}
 
 	};
-	self.actuallyRemoveConnection = function(connection){
+	self.actuallyRemoveConnection = function(connection) {
 		var index = self.connections.indexOf(connection);
-		self.connections.splice(index,1);
+		self.connections.splice(index, 1);
 	};
 
 
@@ -157,7 +157,7 @@ function Tournament(config){
 	///////////////////////
 
 	var AGENTS;
-	self.reset = function(){
+	self.reset = function() {
 
 		// Agents & Network...
 		AGENTS = JSON.parse(JSON.stringify(Tournament.INITIAL_AGENTS));
@@ -183,12 +183,12 @@ function Tournament(config){
 	// SHOW MATCHES ////////////////////
 	////////////////////////////////////
 
-	self.playMatch = function(number){
+	self.playMatch = function(number) {
 
 		// GET OUR MATCH
 		var matches = [];
-		for(var a=0; a<self.agents.length; a++){
-			for(var b=a+1; b<self.agents.length; b++){
+		for (var a = 0; a < self.agents.length; a++) {
+			for (var b = a + 1; b < self.agents.length; b++) {
 				matches.push([self.agents[a], self.agents[b]]);
 			}
 		}
@@ -197,9 +197,9 @@ function Tournament(config){
 		// Highlight match
 		self.dehighlightAllConnections();
 		var connections = match[0].connections;
-		var connection = connections.filter(function(c){
-			if(c.from==match[0] && c.to==match[1]) return true;
-			if(c.from==match[1] && c.to==match[0]) return true;
+		var connection = connections.filter(function(c) {
+			if (c.from == match[0] && c.to == match[1]) return true;
+			if (c.from == match[1] && c.to == match[0]) return true;
 			return false;
 		})[0];
 		connection.highlight();
@@ -217,8 +217,8 @@ function Tournament(config){
 		}
 
 	};
-	self.dehighlightAllConnections = function(){
-		for(var i=0; i<self.connections.length; i++) self.connections[i].dehighlight();
+	self.dehighlightAllConnections = function() {
+		for (var i = 0; i < self.connections.length; i++) self.connections[i].dehighlight();
 	};
 
 	////////////////////////////////////
@@ -227,51 +227,51 @@ function Tournament(config){
 
 	// Play one tournament
 	self.agentsSorted = null;
-	self.playOneTournament = function(){
+	self.playOneTournament = function() {
 		PD.playOneTournament(self.agents, Tournament.NUM_TURNS);
 		self.agentsSorted = _shuffleArray(self.agents.slice());
-		self.agentsSorted.sort(function(a,b){ return a.coins-b.coins; });
+		self.agentsSorted.sort(function(a, b) { return a.coins - b.coins; });
 	};
 
 	// Get rid of X worst
-	self.eliminateBottom = function(X){
+	self.eliminateBottom = function(X) {
 
 		// The worst X
-		var worst = self.agentsSorted.slice(0,X);
+		var worst = self.agentsSorted.slice(0, X);
 
 		// For each one, subtract from AGENTS count, and KILL.
-		for(var i=0; i<worst.length; i++){
+		for (var i = 0; i < worst.length; i++) {
 			var badAgent = worst[i];
-			var config = AGENTS.find(function(config){
-				return config.strategy==badAgent.strategyName;
+			var config = AGENTS.find(function(config) {
+				return config.strategy == badAgent.strategyName;
 			});
 			config.count--; // remove one
 			badAgent.eliminate(); // ELIMINATE
 		}
 
 	};
-	self.actuallyRemoveAgent = function(agent){
+	self.actuallyRemoveAgent = function(agent) {
 		var index = self.agents.indexOf(agent);
-		self.agents.splice(index,1);
+		self.agents.splice(index, 1);
 	};
 
 	// Reproduce the top X
-	self.reproduceTop = function(X){
+	self.reproduceTop = function(X) {
 
 		// The top X
-		var best = self.agentsSorted.slice(self.agentsSorted.length-X, self.agentsSorted.length);
+		var best = self.agentsSorted.slice(self.agentsSorted.length - X, self.agentsSorted.length);
 
 		// For each one, add to AGENTS count
-		for(var i=0; i<best.length; i++){
+		for (var i = 0; i < best.length; i++) {
 			var goodAgent = best[i];
-			var config = AGENTS.find(function(config){
-				return config.strategy==goodAgent.strategyName;
+			var config = AGENTS.find(function(config) {
+				return config.strategy == goodAgent.strategyName;
 			});
 			config.count++; // ADD one
 		}
 
 		// ADD agents, splicing right AFTER
-		for(var i=0; i<best.length; i++){
+		for (var i = 0; i < best.length; i++) {
 
 			// Properties...
 			var goodAgent = best[i];
@@ -279,7 +279,7 @@ function Tournament(config){
 			var strategy = goodAgent.strategyName;
 
 			// Create agent!
-			var agent = new TournamentAgent({angle:angle, strategy:strategy, tournament:self});
+			var agent = new TournamentAgent({ angle: angle, strategy: strategy, tournament: self });
 			self.agentsContainer.addChild(agent.graphics);
 
 			// Splice RIGHT AFTER
@@ -289,9 +289,9 @@ function Tournament(config){
 		}
 
 		// What are the agents' GO-TO angles?
-		for(var i=0; i<self.agents.length; i++){
+		for (var i = 0; i < self.agents.length; i++) {
 			var agent = self.agents[i];
-			var angle = (i/self.agents.length)*Math.TAU - Math.TAU/4;
+			var angle = (i / self.agents.length) * Math.TAU - Math.TAU / 4;
 			agent.gotoAngle = angle;
 		}
 
@@ -310,26 +310,26 @@ function Tournament(config){
 	// AUTOPLAY
 	self.isAutoPlaying = false;
 	var _step = 0;
-	var _nextStep = function(){
-		if(self.STAGE!=STAGE_REST) return;
-		if(_step==0) publish("tournament/play");
-		if(_step==1) publish("tournament/eliminate");
-		if(_step==2) publish("tournament/reproduce");
-		_step = (_step+1)%3;
+	var _nextStep = function() {
+		if (self.STAGE != STAGE_REST) return;
+		if (_step == 0) publish("tournament/play");
+		if (_step == 1) publish("tournament/eliminate");
+		if (_step == 2) publish("tournament/reproduce");
+		_step = (_step + 1) % 3;
 	};
-	var _startAutoPlay = function(){
+	var _startAutoPlay = function() {
 		self.isAutoPlaying = true;
 		_nextStep();
-		setTimeout(function(){
-			if(self.isAutoPlaying) _startAutoPlay();
-		},150);
+		setTimeout(function() {
+			if (self.isAutoPlaying) _startAutoPlay();
+		}, 150);
 	};
-	var _stopAutoPlay = function(){
+	var _stopAutoPlay = function() {
 		self.isAutoPlaying = false;
 	};
 	listen(self, "tournament/autoplay/start", _startAutoPlay);
 	listen(self, "tournament/autoplay/stop", _stopAutoPlay);
-	listen(self, "tournament/step", function(){
+	listen(self, "tournament/step", function() {
 		publish("tournament/autoplay/stop");
 		_nextStep();
 	});
@@ -337,13 +337,13 @@ function Tournament(config){
 	// ANIMATE
 	var _playIndex = 0;
 	var _tweenTimer = 0;
-	var _tick = function(delta){
+	var _tick = function(delta) {
 
 		// Tick
 		Tween.tick();
 
 		// PLAY!
-		if(self.STAGE == STAGE_PLAY){
+		if (self.STAGE == STAGE_PLAY) {
 			/*if(self.isAutoPlaying){
 				self.playOneTournament(); // FOR REAL, NOW.
 				_playIndex = 0;
@@ -351,26 +351,27 @@ function Tournament(config){
 				self.STAGE = STAGE_REST;
 				publish("tournament/step/completed", ["play"]);
 			}else{*/
-				if(_playIndex>0 && _playIndex<self.agents.length+1) self.agents[_playIndex-1].dehighlightConnections();
-				if(_playIndex>1 && _playIndex<self.agents.length+2) self.agents[_playIndex-2].dehighlightConnections();
-				if(_playIndex<self.agents.length){
-					self.agents[_playIndex].highlightConnections();
-					_playIndex += self.isAutoPlaying ? 2 : 1;
-				}else{
-					self.playOneTournament(); // FOR REAL, NOW.
-					_playIndex = 0;
-					_tweenTimer = 0;
-					self.STAGE = STAGE_REST;
-					publish("tournament/step/completed", ["play"]);
-				}
+			if (_playIndex > 0 && _playIndex < self.agents.length + 1) self.agents[_playIndex - 1].dehighlightConnections();
+			if (_playIndex > 1 && _playIndex < self.agents.length + 2) self.agents[_playIndex - 2].dehighlightConnections();
+			if (_playIndex < self.agents.length) {
+				self.agents[_playIndex].highlightConnections();
+				_playIndex += self.isAutoPlaying ? 2 : 1;
+			}
+			else {
+				self.playOneTournament(); // FOR REAL, NOW.
+				_playIndex = 0;
+				_tweenTimer = 0;
+				self.STAGE = STAGE_REST;
+				publish("tournament/step/completed", ["play"]);
+			}
 			//}
 		}
 
 		// ELIMINATE!
-		if(self.STAGE == STAGE_ELIMINATE){
+		if (self.STAGE == STAGE_ELIMINATE) {
 			self.eliminateBottom(Tournament.SELECTION);
 			_tweenTimer++;
-			if(_tweenTimer==_s(0.3) || self.isAutoPlaying){
+			if (_tweenTimer == _s(0.3) || self.isAutoPlaying) {
 				_tweenTimer = 0;
 				self.STAGE = STAGE_REST;
 				publish("tournament/step/completed", ["eliminate"]);
@@ -378,26 +379,26 @@ function Tournament(config){
 		}
 
 		// REPRODUCE!
-		if(self.STAGE == STAGE_REPRODUCE){
+		if (self.STAGE == STAGE_REPRODUCE) {
 
 			// Start
-			if(_tweenTimer==0){
+			if (_tweenTimer == 0) {
 				self.reproduceTop(Tournament.SELECTION);
 			}
 
 			// Middle...
 			_tweenTimer += self.isAutoPlaying ? 0.15 : 0.05;
-			if(_tweenTimer>1) _tweenTimer=1;
-			for(var i=0;i<self.agents.length;i++){
+			if (_tweenTimer > 1) _tweenTimer = 1;
+			for (var i = 0; i < self.agents.length; i++) {
 				var a = self.agents[i];
 				a.tweenAngle(_tweenTimer);
 				a.updatePosition();
 			}
 			self.sortAgentsByDepth();
-			for(var i=0;i<self.connections.length;i++) self.connections[i].updateGraphics();
+			for (var i = 0; i < self.connections.length; i++) self.connections[i].updateGraphics();
 
 			// End
-			if(_tweenTimer>=1){
+			if (_tweenTimer >= 1) {
 				_tweenTimer = 0;
 				self.STAGE = STAGE_REST;
 				publish("tournament/step/completed", ["reproduce"]);
@@ -409,37 +410,37 @@ function Tournament(config){
 	app.ticker.add(_tick);
 
 	// PLAY A TOURNAMENT
-	self._startPlay = function(){
-		if(!self.isAutoPlaying){
+	self._startPlay = function() {
+		if (!self.isAutoPlaying) {
 			Loader.sounds.coin_get.volume(0.1).play();
 		}
-		self.STAGE=STAGE_PLAY;
+		self.STAGE = STAGE_PLAY;
 	};
 	listen(self, "tournament/play", self._startPlay);
-	self._startEliminate = function(){
-		if(!self.isAutoPlaying){
+	self._startEliminate = function() {
+		if (!self.isAutoPlaying) {
 			Loader.sounds.squeak.volume(0.4).play();
 		}
-		self.STAGE=STAGE_ELIMINATE;
+		self.STAGE = STAGE_ELIMINATE;
 	};
 	listen(self, "tournament/eliminate", self._startEliminate);
-	self._startReproduce = function(){
-		if(!self.isAutoPlaying){
+	self._startReproduce = function() {
+		if (!self.isAutoPlaying) {
 			Loader.sounds.bonk.volume(0.3).play();
 		}
-		self.STAGE=STAGE_REPRODUCE;
+		self.STAGE = STAGE_REPRODUCE;
 	};
 	listen(self, "tournament/reproduce", self._startReproduce);
 
 	// Add...
-	self.add = function(){
+	self.add = function() {
 		_add(self);
 	};
 
 	// Remove...
-	self.remove = function(){
+	self.remove = function() {
 		_stopAutoPlay();
-		for(var i=0; i<self.agents.length; i++) unlisten(self.agents[i]);
+		for (var i = 0; i < self.agents.length; i++) unlisten(self.agents[i]);
 		unlisten(self);
 		app.destroy();
 		_remove(self);
@@ -451,7 +452,7 @@ function Tournament(config){
 ///////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////
 
-function TournamentConnection(config){
+function TournamentConnection(config) {
 
 	var self = this;
 	self.config = config;
@@ -465,12 +466,13 @@ function TournamentConnection(config){
 
 	// Graphics!
 	var g;
-	if(Tournament.FLOWER_CONNECTIONS){
+	if (Tournament.FLOWER_CONNECTIONS) {
 		g = _makeMovieClip("connection_flower");
 		g.anchor.x = 0;
 		g.anchor.y = 0;
 		g.scale.set(0.5);
-	}else{
+	}
+	else {
 		g = _makeMovieClip("connection");
 		g.anchor.x = 0;
 		g.anchor.y = 0.5;
@@ -478,29 +480,31 @@ function TournamentConnection(config){
 	}
 	self.graphics = g;
 	var _flowerLong = false;
-	var _updateFlower = function(highlight){
+	var _updateFlower = function(highlight) {
 		var frame = 0;
-		if(highlight) frame+=2;
-		if(_flowerLong) frame+=1;
+		if (highlight) frame += 2;
+		if (_flowerLong) frame += 1;
 		g.gotoAndStop(frame);
 	};
-	if(config.flower_flip){
+	if (config.flower_flip) {
 		g.scale.y *= -1;
 	}
 
 	// Highlight or no?
-	self.highlight = function(){
-		if(Tournament.FLOWER_CONNECTIONS){
+	self.highlight = function() {
+		if (Tournament.FLOWER_CONNECTIONS) {
 			_updateFlower(true);
-		}else{
+		}
+		else {
 			g.height = 3;
 			g.gotoAndStop(1);
 		}
 	};
-	self.dehighlight = function(){
-		if(Tournament.FLOWER_CONNECTIONS){
+	self.dehighlight = function() {
+		if (Tournament.FLOWER_CONNECTIONS) {
 			_updateFlower(false);
-		}else{
+		}
+		else {
 			g.height = 1;
 			g.gotoAndStop(0);
 		}
@@ -508,36 +512,40 @@ function TournamentConnection(config){
 	self.dehighlight();
 
 	// Stretch dat bad boy
-	self.updateGraphics = function(){
-		
+	self.updateGraphics = function() {
+
 		var f = self.from.graphics;
 		var t = self.to.graphics;
-		var dx = t.x-f.x;
-		var dy = t.y-f.y;
-		var a = Math.atan2(dy,dx);
-		var dist = Math.sqrt(dx*dx+dy*dy);
+		var dx = t.x - f.x;
+		var dy = t.y - f.y;
+		var a = Math.atan2(dy, dx);
+		var dist = Math.sqrt(dx * dx + dy * dy);
 
-		g.x = f.x; 
+		g.x = f.x;
 		g.y = f.y;
 
-		if(Tournament.FLOWER_CONNECTIONS){
-			if(dist<250){
+		if (Tournament.FLOWER_CONNECTIONS) {
+			if (dist < 250) {
 				_flowerLong = false;
-				if(config.flower_flip){
-					g.rotation = a+Math.TAU/10;
-				}else{
-					g.rotation = a-Math.TAU/10;
+				if (config.flower_flip) {
+					g.rotation = a + Math.TAU / 10;
 				}
-			}else{
+				else {
+					g.rotation = a - Math.TAU / 10;
+				}
+			}
+			else {
 				_flowerLong = true;
-				if(config.flower_flip){
-					g.rotation = a+Math.TAU/5;
-				}else{
-					g.rotation = a-Math.TAU/5;
+				if (config.flower_flip) {
+					g.rotation = a + Math.TAU / 5;
+				}
+				else {
+					g.rotation = a - Math.TAU / 5;
 				}
 			}
 			_updateFlower();
-		}else{
+		}
+		else {
 			g.rotation = a;
 			g.width = dist;
 		}
@@ -547,8 +555,8 @@ function TournamentConnection(config){
 
 	// KILL
 	self.IS_DEAD = false;
-	self.kill = function(){
-		if(self.IS_DEAD) return;
+	self.kill = function() {
+		if (self.IS_DEAD) return;
 		self.IS_DEAD = true;
 		self.graphics.parent.removeChild(self.graphics); // remove self's graphics
 		self.tournament.actuallyRemoveConnection(self);
@@ -560,7 +568,41 @@ function TournamentConnection(config){
 ///////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////
 
-function TournamentAgent(config){
+////
+//Extra code added by Shirish Pokharel
+function getRandomInt(min, max) {
+	min = Math.ceil(min);
+	max = Math.floor(max);
+	return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
+}
+
+Number.prototype.map = function(in_min, in_max, out_min, out_max) {
+	return (this - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+}
+
+function should_change(moodval) {
+	var res = 0;
+	var rand_num = getRandomInt(0, 101);
+	if (moodval < 0) {
+		res = Math.ceil(num.map(.1, 6, 0, 10));
+		if (rand_num <= res) {
+			return PD.CHEAT;
+		}
+	}
+	if (moodval > 0) {
+		res = Math.ceil(num.map(-10, -.1, 0, 20));
+		if (rand_num <= res) {
+			return PD.COOPERATE;
+		}
+	}
+	return 0;
+}
+///////
+//////
+
+
+
+function TournamentAgent(config) {
 
 	var self = this;
 	self.strategyName = config.strategy;
@@ -570,14 +612,14 @@ function TournamentAgent(config){
 
 	// Connections
 	self.connections = [];
-	self.highlightConnections = function(){
-		for(var i=0;i<self.connections.length;i++) self.connections[i].highlight();
+	self.highlightConnections = function() {
+		for (var i = 0; i < self.connections.length; i++) self.connections[i].highlight();
 	};
-	self.dehighlightConnections = function(){
-		for(var i=0;i<self.connections.length;i++) self.connections[i].dehighlight();
+	self.dehighlightConnections = function() {
+		for (var i = 0; i < self.connections.length; i++) self.connections[i].dehighlight();
 	};
-	self.clearConnections = function(){
-		for(var i=0;i<self.connections.length;i++){
+	self.clearConnections = function() {
+		for (var i = 0; i < self.connections.length; i++) {
 			self.connections[i].kill();
 		}
 		self.connections = [];
@@ -585,7 +627,7 @@ function TournamentAgent(config){
 
 	// Number of coins
 	self.coins = 0;
-	self.addPayoff = function(payoff){
+	self.addPayoff = function(payoff) {
 		self.coins += payoff;
 		self.updateScore();
 	};
@@ -604,68 +646,102 @@ function TournamentAgent(config){
 
 	// Score!
 	var textStyle = new PIXI.TextStyle({
-	    fontFamily: "FuturaHandwritten",
-	    fontSize: 16,
-	    fill: "#444"
+		fontFamily: "FuturaHandwritten",
+		fontSize: 16,
+		fill: "#444"
 	});
 	var scoreText = new PIXI.Text("", textStyle);
 	scoreText.anchor.x = 0.5;
 	g.addChild(scoreText);
-	self.updateScore = function(){
+	self.updateScore = function() {
 		scoreText.visible = true;
 		scoreText.text = self.coins;
 	};
 	self.updateScore();
 	scoreText.visible = false;
-	listen(self, "tournament/reproduce",function(){
+	listen(self, "tournament/reproduce", function() {
 		scoreText.visible = false;
 	});
 
 	// What's the play logic?
-	var LogicClass = window["Logic_"+self.strategyName];
+	var LogicClass = window["Logic_" + self.strategyName];
 	self.logic = new LogicClass();
-	self.play = function(){
-		return self.logic.play();
+	self.play = function() {
+		var toReturn = self.logic.play();
+		//If we are 5 moves away from having cheated a happy negotiator...
+		if (self.happiness_counter > 4) {
+			self.happiness_counter = 0;
+			//if they admonished us by disagreeing more than 2/5 times
+			if (self.happiness_disagree > 2) {
+				//we know not to be influened by the happiness rule anymore
+				//because they've discovered we're taking advantage of their
+				//happiness.
+				self.happiness_influenced = false;
+			}
+			self.happiness_disagree = 0;
+		}
+		//if we are 6 moves away from capitulating to an angry negotiator
+		if (self.anger_counter > 5) {
+			self.anger_counter = 0;
+			//if they have not reciprocated at least 2/6 times...
+			if (self.anger_agree < 3) {
+				//we know they are irrationally crazy, and won't return the
+				//favor even if we capitulate. So, ignore the anger rule.
+				self.anger_influenced = false;
+			}
+			self.anger_agree = 0;
+		}
+
+		if (self.next_move != 0 && self.next_move != toReturn && 
+			self.happiness_influenced && self.anger_influenced) {
+			return self.next_move;
+		}
+		return toReturn;
+
 	};
-	self.remember = function(own, other){
+	self.remember = function(own, other, other_mood) {
+		self.next_move = should_change(other_mood);
+		if (self.next_move == PD.CHEAT) self.happiness_counter++;
+		if (self.next_move == PD.COOPERATE) self.anger_counter++;
 		self.logic.remember(own, other);
+
 	};
 
-	var mood_ = 666666;
-	var happiness_counter = 0;
-	var anger_counter = 0;
-	var anger_agree = 0;
-	var happiness_disagree = 0;
-	var anger_influenced = false;
-	var happiness_influenced = false;
-	var next_move = 0;
-	console.log("I AM PRINTING this agent");
-	self.name = "Benjamin Goddone";
 
 	// Reset!
-	self.resetCoins = function(){
+	self.resetCoins = function() {
 		self.coins = 0; // reset coins;
 		self.updateScore();
+		self.mood_ = getRandomInt(-10, 6);
+		self.happiness_counter = 0;
+		self.anger_counter = 0;
+		self.anger_agree = 0;
+		self.happiness_disagree = 0;
+		self.anger_influenced = false;
+		self.happiness_influenced = false;
+		self.next_move = 0;
+		self.name = "Benjamin Goddone";
+
 	}
-	self.resetLogic = function(){
+	self.resetLogic = function() {
 		self.logic = new LogicClass(); // reset logic
 	};
 
 	// Tween angle...
-	self.tweenAngle = function(t){
-		self.angle = self.gotoAngle*t + self.angle*(1-t);
+	self.tweenAngle = function(t) {
+		self.angle = self.gotoAngle * t + self.angle * (1 - t);
 	};
-	self.updatePosition = function(){
-		g.x = Math.cos(self.angle)*200 + 250;
-		g.y = Math.sin(self.angle)*200 + 265;
-		scoreText.x = -Math.cos(self.angle)*40;
-		scoreText.y = -Math.sin(self.angle)*48 - 22;
-		body.scale.x = Math.abs(body.scale.x) * ((Math.cos(self.angle)<0) ? 1 : -1);
+	self.updatePosition = function() {
+		g.x = Math.cos(self.angle) * 200 + 250;
+		g.y = Math.sin(self.angle) * 200 + 265;
+		scoreText.x = -Math.cos(self.angle) * 40;
+		scoreText.y = -Math.sin(self.angle) * 48 - 22;
+		body.scale.x = Math.abs(body.scale.x) * ((Math.cos(self.angle) < 0) ? 1 : -1);
 	};
 	self.updatePosition();
 
 	// ELIMINATE
-	self.eliminate = function(){
+	self.eliminate = function() {
 
 		// INSTA-KILL ALL CONNECTIONS
 		self.clearConnections();
@@ -675,19 +751,19 @@ function TournamentAgent(config){
 		var duration = self.tournament.isAutoPlaying ? 0.13 : 0.3;
 		Tween_get(g).to({
 			alpha: 0,
-			x: g.x+Math.random()*20-10,
-			y: g.y+Math.random()*20-10,
-			rotation: Math.random()*0.5-0.25
+			x: g.x + Math.random() * 20 - 10,
+			y: g.y + Math.random() * 20 - 10,
+			rotation: Math.random() * 0.5 - 0.25
 		}, _s(duration), Ease.circOut).call(self.kill);
 
 	};
 
 	// KILL (actually insta-remove)
-	self.kill = function(){
+	self.kill = function() {
 
 		// Remove ANY tweens
 		Tween.removeTweens(g);
-		
+
 		// NOW remove graphics.
 		g.parent.removeChild(g);
 
@@ -700,4 +776,3 @@ function TournamentAgent(config){
 	};
 
 }
-
