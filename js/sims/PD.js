@@ -164,7 +164,7 @@ function should_change(moodval){
 
 function Logic_tft(){
 	var self = this;
-	var mood = getRandomInt(-10, 6);
+	var mood_ = getRandomInt(-10, 6);
 	var happiness_counter = 0;
 	var anger_counter = 0;
 	var anger_agree = 0;
@@ -223,7 +223,7 @@ function Logic_tft(){
 
 function Logic_tf2t(){
 	var self = this;
-	var mood = getRandomInt(-10, 6);
+	var mood_ = getRandomInt(-10, 6);
 	var happiness_counter = 0;
 	var anger_counter = 0;
 	var anger_agree = 0;
@@ -297,7 +297,7 @@ function Logic_tf2t(){
 function Logic_grudge(){
 	var self = this;
 	var everCheatedMe = false;
-	var mood = getRandomInt(-10, 6);
+	var mood_ = getRandomInt(-10, 6);
 	var happiness_counter = 0;
 	var anger_counter = 0;
 	var anger_agree = 0;
@@ -364,7 +364,7 @@ function Logic_grudge(){
 
 function Logic_all_d(){
 	var self = this;
-	var mood = getRandomInt(-10, 6);
+	var mood_ = getRandomInt(-10, 6);
 	var happiness_counter = 0;
 	var anger_counter = 0;
 	var anger_agree = 0;
@@ -428,7 +428,7 @@ function Logic_all_d(){
 
 function Logic_all_c(){
 	var self = this;
-	var mood = getRandomInt(-10, 6);
+	var mood_ = getRandomInt(-10, 6);
 	var happiness_counter = 0;
 	var anger_counter = 0;
 	var anger_agree = 0;
@@ -484,7 +484,7 @@ function Logic_all_c(){
 
 function Logic_random(){
 	var self = this;
-	var mood = getRandomInt(-10, 6);
+	var mood_ = getRandomInt(-10, 6);
 	var happiness_counter = 0;
 	var anger_counter = 0;
 	var anger_agree = 0;
@@ -541,7 +541,7 @@ function Logic_random(){
 // Then, if opponent cooperated, repeat past move. otherwise, switch.
 function Logic_pavlov(){
 	var self = this;
-	var mood = getRandomInt(-10, 6);
+	var mood_ = getRandomInt(-10, 6);
 	var happiness_counter = 0;
 	var anger_counter = 0;
 	var anger_agree = 0;
@@ -605,7 +605,7 @@ function Logic_pavlov(){
 function Logic_prober(){
 
 	var self = this;
-	var mood = getRandomInt(-10, 6);
+	var mood_ = getRandomInt(-10, 6);
 	var happiness_counter = 0;
 	var anger_counter = 0;
 	var anger_agree = 0;
