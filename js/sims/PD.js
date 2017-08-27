@@ -204,12 +204,13 @@ function Logic_tft(){
 			anger_agree = 0;
 		}
 		
+		toReturn = otherMove
 		
-		
-		if (next_move != 0 && next_move != otherMove){
+		if (next_move != 0 && next_move != otherMove && anger_influenced
+			&& happiness_influenced){
 			return next_move;
 		}
-		return otherMove;
+		return toReturn;
 	};
 	self.remember = function(own, other, other_mood){
 		next_move = should_change(other_mood);
@@ -272,7 +273,8 @@ function Logic_tf2t(){
 			toReturn = PD.COOPERATE;
 		}
 		
-		if (next_move != 0 && next_move != toReturn){
+		if (next_move != 0 && next_move != toReturn && happiness_influenced
+			&& anger_influenced){
 			return next_move;
 		}		
 		return toReturn;
@@ -342,7 +344,8 @@ function Logic_grudge(){
 			toReturn =  PD.COOPERATE;
 		}
 		
-		if (next_move != 0 && next_move != toReturn){
+		if (next_move != 0 && next_move != toReturn && happiness_influenced
+			&& anger_influenced){
 			return next_move;
 		}		
 		return toReturn;
@@ -401,7 +404,8 @@ function Logic_all_d(){
 		}
 
 		var toReturn = PD.CHEAT;
-		if (next_move != 0 && next_move != toReturn){
+		if (next_move != 0 && next_move != toReturn && happiness_influenced
+			&& anger_influenced){
 			return next_move;
 		}		
 		return toReturn;
@@ -462,7 +466,8 @@ function Logic_all_c(){
 		}
 
 		toReturn = PD.COOPERATE;
-		if (next_move != 0 && next_move != toReturn){
+		if (next_move != 0 && next_move != toReturn && happiness_influenced
+			&& anger_influenced){
 			return next_move;
 		}		
 		return toReturn;
@@ -516,7 +521,8 @@ function Logic_random(){
 			anger_agree = 0;
 		}
 		toReturn =  (Math.random()>0.5 ? PD.COOPERATE : PD.CHEAT);
-		if (next_move != 0 && next_move != toReturn){
+		if (next_move != 0 && next_move != toReturn && happiness_influenced
+			&& anger_influenced){
 			return next_move;
 		}		
 		return toReturn;
@@ -575,7 +581,8 @@ function Logic_pavlov(){
 		}
 
 		toReturn =  myLastMove;
-		if (next_move != 0 && next_move != toReturn){
+		if (next_move != 0 && next_move != toReturn && happiness_influenced
+			&& anger_influenced){
 			return next_move;
 		}		
 		return toReturn;
@@ -653,7 +660,8 @@ function Logic_prober(){
 			}
 		}
 		
-		if (next_move != 0 && next_move != toReturn){
+		if (next_move != 0 && next_move != toReturn && happiness_influenced
+			&& anger_influenced){
 			return next_move;
 		}		
 		return toReturn;
