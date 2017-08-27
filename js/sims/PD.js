@@ -58,6 +58,7 @@ PD.playOneGame = function(playerA, playerB){
 	// Make your moves!
 	var A = playerA.play();
 	var B = playerB.play();
+	console.log("Version 5");
 	var A_mood = playerA.mood();
 	var B_mood = playerB.mood();
 
@@ -176,7 +177,7 @@ function Logic_tft(){
 	var otherMove = PD.COOPERATE;
 	
 	self.mood = function(){
-		return mood;
+		return mood_;
 	}
 
 	self.play = function(){
@@ -234,7 +235,7 @@ function Logic_tf2t(){
 	var next_move = 0;
 
 	self.mood = function(){
-		return mood;
+		return mood_;
 	}
 
 	self.play = function(){
@@ -307,7 +308,7 @@ function Logic_grudge(){
 	var next_move = 0;
 
 	self.mood = function(){
-		return mood;
+		return mood_;
 	}
 
 
@@ -375,7 +376,7 @@ function Logic_all_d(){
 	
 	
 	self.mood = function(){
-		return mood;
+		return mood_;
 	}
 	self.play = function(){
 
@@ -438,7 +439,7 @@ function Logic_all_c(){
 	var next_move = 0;
 	
 	self.mood = function(){
-		return mood;
+		return mood_;
 	}
 	self.play = function(){
 		//If we are 5 moves away from having cheated a happy negotiator...
@@ -494,7 +495,7 @@ function Logic_random(){
 	var next_move = 0;
 	
 	self.mood = function(){
-		return mood;
+		return mood_;
 	}
 	self.play = function(){
 		//If we are 5 moves away from having cheated a happy negotiator...
@@ -553,7 +554,7 @@ function Logic_pavlov(){
 	var myLastMove = PD.COOPERATE;
 	
 	self.mood = function(){
-		return mood;
+		return mood_;
 	}	
 	self.play = function(){
 				//If we are 5 moves away from having cheated a happy negotiator...
@@ -619,7 +620,7 @@ function Logic_prober(){
 
 	var otherMove = PD.COOPERATE;
 	self.mood = function(){
-		return mood;
+		return mood_;
 	}
 	self.play = function(){
 		//If we are 5 moves away from having cheated a happy negotiator...
