@@ -4,7 +4,7 @@ Tournament.resetGlobalVariables = function(){
 	Tournament.NUM_TURNS = 10;
 
 	Tournament.INITIAL_AGENTS = [
-		{strategy:"tft", count:3},
+		{strategy:"tft", count:3, mood_: "HOPE THIS WORKS"},
 		{strategy:"all_d", count:3},
 		{strategy:"all_c", count:3},
 		{strategy:"grudge", count:3},
