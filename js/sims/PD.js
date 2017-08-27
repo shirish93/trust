@@ -58,11 +58,12 @@ PD.playOneGame = function(playerA, playerB){
 	// Make your moves!
 	var A = playerA.play();
 	var B = playerB.play();
-	console.log("Version 9");
+	console.log("Version 10");
 	console.log(A);
 	var A_mood = playerA.mood_;
 	var B_mood = playerB.mood_;
 	console.log(A_mood, B_mood);
+	console.log(A.name, B.name);
 
 	// Noise: random mistakes, flip around!
 	if(Math.random()<PD.NOISE) A = ((A==PD.COOPERATE) ? PD.CHEAT : PD.COOPERATE);

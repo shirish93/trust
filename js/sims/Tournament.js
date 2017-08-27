@@ -631,7 +631,7 @@ function TournamentAgent(config){
 		self.logic.remember(own, other);
 	};
 
-	var mood_ = getRandomInt(-10, 6);
+	var mood_ = 666666;
 	var happiness_counter = 0;
 	var anger_counter = 0;
 	var anger_agree = 0;
@@ -639,6 +639,8 @@ function TournamentAgent(config){
 	var anger_influenced = false;
 	var happiness_influenced = false;
 	var next_move = 0;
+	console.log("I AM PRINTING this agent");
+	self.name = "Benjamin Goddone";
 
 	// Reset!
 	self.resetCoins = function(){
