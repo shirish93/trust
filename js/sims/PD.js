@@ -58,7 +58,7 @@ PD.playOneGame = function(playerA, playerB){
 	// Make your moves!
 	var A = playerA.play();
 	var B = playerB.play();
-	console.log("Version 8");
+	console.log("Version 9");
 	console.log(A);
 	var A_mood = playerA.mood_;
 	var B_mood = playerB.mood_;

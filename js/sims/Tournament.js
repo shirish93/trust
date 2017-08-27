@@ -631,6 +631,15 @@ function TournamentAgent(config){
 		self.logic.remember(own, other);
 	};
 
+	var mood_ = getRandomInt(-10, 6);
+	var happiness_counter = 0;
+	var anger_counter = 0;
+	var anger_agree = 0;
+	var happiness_disagree = 0;
+	var anger_influenced = false;
+	var happiness_influenced = false;
+	var next_move = 0;
+
 	// Reset!
 	self.resetCoins = function(){
 		self.coins = 0; // reset coins;
