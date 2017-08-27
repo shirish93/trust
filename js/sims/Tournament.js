@@ -576,7 +576,7 @@ function getRandomInt(min, max) {
 	return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
 }
 
-Number.prototype.map = function(in_min, in_max, out_min, out_max) {
+map_num = function(in_min, in_max, out_min, out_max) {
 	return (this - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
 
@@ -584,13 +584,13 @@ function should_change(moodval) {
 	var res = 0;
 	var rand_num = getRandomInt(0, 101);
 	if (moodval < 0) {
-		res = Math.ceil(num.map(.1, 6, 0, 10));
+		res = Math.ceil(map_num(.1, 6, 0, 10));
 		if (rand_num <= res) {
 			return PD.CHEAT;
 		}
 	}
 	if (moodval > 0) {
-		res = Math.ceil(num.map(-10, -.1, 0, 20));
+		res = Math.ceil(map_num(-10, -.1, 0, 20));
 		if (rand_num <= res) {
 			return PD.COOPERATE;
 		}

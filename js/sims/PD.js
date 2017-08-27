@@ -66,7 +66,7 @@ PD.playOneGame = function(playerA, playerB){
 	// Get payoffs
 	var payoffs = PD.getPayoffs(A,B);
 
-	console.log("Version 20");
+	console.log("Version 21");
 	var A_mood = playerA.mood_;
 	var B_mood = playerB.mood_;
 	
